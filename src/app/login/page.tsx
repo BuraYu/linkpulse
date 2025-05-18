@@ -1,6 +1,17 @@
+import { redirect } from "next/navigation";
+import { createClient } from "@/utils/supabase/server";
 import { login, signup } from "./actions";
 
-export default function LoginPage() {
+export default async function LoginPage() {
+  const supabase = await createClient();
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
+
+  if (session) {
+    redirect("/");
+  }
+
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <form className="flex flex-col gap-4 p-6 max-w-md w-full bg-white shadow-md rounded-md">
