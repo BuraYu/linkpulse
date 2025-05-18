@@ -15,6 +15,7 @@ export default async function LoginPage() {
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <form className="flex flex-col gap-4 p-6 max-w-md w-full bg-white shadow-md rounded-md">
+        <h1 className="text-2xl font-bold text-gray-800 text-center">Login</h1>
         <label htmlFor="email" className="text-sm font-medium text-gray-700">
           Email:
         </label>
@@ -35,6 +36,12 @@ export default async function LoginPage() {
           required
           className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
+        <span className="text-sm text-gray-600 text-center">
+          No account?{" "}
+          <a href="/signup" className="text-blue-500 hover:underline">
+            Sign up here.
+          </a>
+        </span>
         <div className="flex justify-between gap-4 mt-4">
           <button
             formAction={login}
