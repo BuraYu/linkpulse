@@ -1,62 +1,57 @@
-import { redirect } from "next/navigation";
-import { createClient } from "@/utils/supabase/server";
-import { login, signup } from "./actions";
+"use client";
 
-export default async function LoginPage() {
-  const supabase = await createClient();
-  const {
-    data: { session },
-  } = await supabase.auth.getSession();
+import React, { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { createClient } from "@/utils/supabase/client";
+import LoginForm from "./components/LoginForm";
+import SignupForm from "./components/SignupForm";
 
-  if (session) {
-    redirect("/");
+export default function LoginPage() {
+  const [isLogin, setIsLogin] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
+  const router = useRouter();
+
+  useEffect(() => {
+    const checkSession = async () => {
+      const supabase = createClient();
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
+
+      if (session) {
+        router.push("/");
+      } else {
+        setIsLoading(false);
+      }
+    };
+
+    checkSession();
+  }, [router]);
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen bg-gray-100">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-blue-500 border-solid"></div>
+      </div>
+    );
   }
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <form className="flex flex-col gap-4 p-6 max-w-md w-full bg-white shadow-md rounded-md">
-        <h1 className="text-2xl font-bold text-gray-800 text-center">Login</h1>
-        <label htmlFor="email" className="text-sm font-medium text-gray-700">
-          Email:
-        </label>
-        <input
-          id="email"
-          name="email"
-          type="email"
-          required
-          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
-        <label htmlFor="password" className="text-sm font-medium text-gray-700">
-          Password:
-        </label>
-        <input
-          id="password"
-          name="password"
-          type="password"
-          required
-          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
-        <span className="text-sm text-gray-600 text-center">
-          No account?{" "}
-          <a href="/signup" className="text-blue-500 hover:underline">
-            Sign up here.
-          </a>
-        </span>
-        <div className="flex justify-between gap-4 mt-4">
-          <button
-            formAction={login}
-            className="w-full px-4 py-2 text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          >
-            Log in
-          </button>
-          <button
-            formAction={signup}
-            className="w-full px-4 py-2 text-white bg-green-500 rounded-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500"
-          >
-            Sign up
-          </button>
-        </div>
-      </form>
+      <div className="flex flex-col gap-8 p-6 max-w-md w-full bg-white shadow-md rounded-md">
+        <h1 className="text-2xl font-bold text-gray-800 text-center">
+          {isLogin ? "Login" : "Sign Up"}
+        </h1>
+        {isLogin ? <LoginForm /> : <SignupForm />}
+        <button
+          onClick={() => setIsLogin(!isLogin)}
+          className="text-blue-500 hover:underline text-sm text-center"
+        >
+          {isLogin
+            ? "Don't have an account? Sign up here."
+            : "Already have an account? Log in here."}
+        </button>
+      </div>
     </div>
   );
 }
