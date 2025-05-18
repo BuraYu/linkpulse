@@ -3,44 +3,54 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
-import { createClient } from "@/app/utils/supabase/server";
+import { createClient } from "@/utils/supabase/server";
 
 export async function login(formData: FormData) {
-  const supabase = await createClient();
+  console.log("Login function called");
 
-  // type-casting here for convenience
-  // in practice, you should validate your inputs
+  const supabase = await createClient();
+  console.log("Supabase client created");
+
+  // Extract and log form data
   const data = {
     email: formData.get("email") as string,
     password: formData.get("password") as string,
   };
+  console.log("Form data extracted:", data);
 
+  // Attempt login
   const { error } = await supabase.auth.signInWithPassword(data);
-
   if (error) {
+    console.error("Login error:", error.message);
     redirect("/error");
   }
 
+  console.log("Login successful, revalidating path");
   revalidatePath("/", "layout");
   redirect("/");
 }
 
 export async function signup(formData: FormData) {
-  const supabase = await createClient();
+  console.log("Signup function called");
 
-  // type-casting here for convenience
-  // in practice, you should validate your inputs
+  const supabase = await createClient();
+  console.log("Supabase client created");
+
+  // Extract and log form data
   const data = {
     email: formData.get("email") as string,
     password: formData.get("password") as string,
   };
+  console.log("Form data extracted:", data);
 
+  // Attempt signup
   const { error } = await supabase.auth.signUp(data);
-
   if (error) {
+    console.error("Signup error:", error.message);
     redirect("/error");
   }
 
+  console.log("Signup successful, revalidating path");
   revalidatePath("/", "layout");
   redirect("/");
 }
