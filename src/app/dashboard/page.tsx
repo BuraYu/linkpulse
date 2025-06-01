@@ -1,13 +1,12 @@
-import LogoutButton from "./components/SignOut";
+import Sidebar from "./components/Sidebar";
 
 export default function Dashbaord() {
-  const submittedLinks: number = 5;
-
   return (
-    <div>
-      <h1>Hello Burak</h1>
-      <LogoutButton />
-      <p>Total submitted link: {submittedLinks}</p>
+    <div className="flex w-full h-screen">
+      <Sidebar />
+      <div className="flex justify-center items-start w-full">
+        <h1 className="text-4xl">Hello Burak</h1>
+      </div>
     </div>
   );
 }
