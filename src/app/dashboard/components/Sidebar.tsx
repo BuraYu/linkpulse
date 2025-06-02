@@ -48,25 +48,37 @@ const Sidebar = ({
 
         <div className="p-4">
           <h3 className="text-lg font-bold mb-4">Navigation</h3>
-          <ul>
-            <li className="hover:bg-gray-700 p-2 rounded-md cursor-pointer">
+          <ul className="flex flex-col">
+            <Link
+              className="hover:bg-gray-700 p-2 rounded-md cursor-pointer"
+              href="/dashboard"
+            >
               Home
-            </li>
-            <li className="hover:bg-gray-700 p-2 rounded-md cursor-pointer">
+            </Link>
+            <Link
+              className="hover:bg-gray-700 p-2 rounded-md cursor-pointer"
+              href="/dashboard/userlinks"
+            >
               Your Links
-            </li>
+            </Link>
             <Link
               className="hover:bg-gray-700 p-2 rounded-md cursor-pointer"
               href="/dashboard/createlink"
             >
               Create Link
             </Link>
-            <li className="hover:bg-gray-700 p-2 rounded-md cursor-pointer">
+            <Link
+              className="hover:bg-gray-700 p-2 rounded-md cursor-pointer"
+              href="/dashboard/blog"
+            >
               Blog
-            </li>
-            <li className="hover:bg-gray-700 p-2 rounded-md cursor-pointer">
-              Contact
-            </li>
+            </Link>
+            <Link
+              className="hover:bg-gray-700 p-2 rounded-md cursor-pointer"
+              href="/dashboard/analytics"
+            >
+              Analytics
+            </Link>
           </ul>
         </div>
 
